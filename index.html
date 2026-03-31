@@ -4,7 +4,7 @@
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NLP Class Project | Fall 2024 CSCI 5541 | University of Minnesota</title>
+  <title>NLP Class Project | Spring 2026 CSCI 5541 | University of Minnesota</title>
 
   <link rel="stylesheet" href="./files/bulma.min.css" />
 
@@ -178,7 +178,20 @@ enough evidence exists to suggest the presence of a language disorder, primarily
 </p>
 
 <p>
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+We approached this problem by building a text classification pipeline to identify language disorders from conversational transcripts. 
+  First, we aggregated individual utterances into session-level documents to better reflect clinically meaningful language use. 
+  For the baseline models, we applied TF-IDF vectorization to convert the text into numerical representations, capturing both word frequency and contextual patterns through unigram and bigram features. 
+  These representations were used to train a majority class baseline and a logistic regression model, providing simple and interpretable benchmarks.
+</p>
+
+<p>
+In addition to the baseline methods, we implemented a transformer-based language model. 
+  This approach leverages contextual embeddings to capture deeper semantic and sequential patterns that are not represented in TF-IDF features. 
+</p>
+
+<p>
+We chose this combined approach because baseline models such as majority class and logistic regression establish reference points, while transformer-based models have shown good performance in capturing complex language patterns. 
+  Our approach is novel in its systematic comparison between traditional methods and transformer-based models applied to conversational data, with attention to clinically relevant linguistic features.
 </p>
 
 <p>
@@ -186,7 +199,10 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 </p>
 
 <p>
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+We anticipated challenges related to data sparsity and variability in transcript length. One additional concern was tokenization, 
+  as previous studies have shown that disordered speech can introduce difficulties for standard tokenization methods.
+  Disfluencies, repetitions, and non-standard language forms may lead to inconsistent token boundaries, 
+  which can affect both TF-IDF feature quality and transformer input representations. 
 </p>
 
 <hr>
@@ -196,36 +212,90 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 <b>How did you measure success? What experiments were used? What were the results, both quantitative and qualitative? Did you succeed? Did you fail? Why?</b>
 </p>
 <p>
-Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+We evaluated model performance on conversational transcripts from the CLARIN TalkBank / CHILDES dataset for a binary classification task predicting the presence of a language disorder. 
+  Success was measured using standard classification metrics, including precision, recall, F1-score, and ROC-AUC, to account for potential class imbalance and provide a comprehensive assessment of model performance.
 </p>
+
+<p>
+We conducted experiments comparing a majority class baseline, a logistic regression model using TF-IDF features, and a transformer-based language model. 
+  The baseline models were designed to establish interpretable reference points, while the transformer model aimed to capture deeper contextual and sequential patterns in the transcripts. We also evaluated different input representations, including cleaned text and disfluency-tagged transcripts, to assess the impact of preprocessing.
+</p>
+
+<p>
+We compared a majority class baseline with a logistic regression model trained on TF-IDF features. 
+  The majority classifier achieved an F1-score of 0.78 for the majority class (label 0) but completely failed to identify the minority class (label 1), with precision, recall, and F1-score all equal to 0. 
+  This highlights its limitation in handling imbalanced data, as it predicts only the dominant class.
+</p>
+
+<p>
+In contrast, the logistic regression model substantially improved performance across both classes. 
+  For label 0, it achieved a precision of 0.82, recall of 0.93, and F1-score of 0.87. 
+  More importantly, for the minority class (label 1), it achieved a precision of 0.83, recall of 0.64, and F1-score of 0.72. 
+  These results indicate that the model was able to capture meaningful linguistic patterns associated with language disorders, 
+  although recall for the minority class remains lower, suggesting some missed cases.
+</p>
+
+<p>
+(Lynn: Need to be confrimed!) Qualitatively, error analysis suggests that misclassifications often occur in sessions with highly variable or disfluent speech, where tokenization and representation may be less reliable. 
+  In particular, disfluency-tagged transcripts may introduce noise that affects model performance. Additionally, shorter or less informative sessions appear more difficult to classify accurately.
+</p>
+
+<p>
+Overall, the logistic regression model represents an improvement over the baseline and provides a good, interpretable starting point. 
+  While the approach was successful in identifying meaningful patterns, the lower recall for the minority class and sensitivity to disordered speech highlight the need for more advanced models, such as transformer-based language models, to better capture complex linguistic structures.
+</p>
+
+    
 <table>
   <thead>
     <tr>
-      <th style="text-align: center"><strong>Experiment</strong></th>
-      <th style="text-align: center">1</th>
-      <th style="text-align: center">2</th>
-      <th style="text-align: center">3</th>
+      <th style="text-align: center"><strong>Model</strong></th>
+      <th style="text-align: center"><strong>Class</strong></th>
+      <th style="text-align: center">Precision</th>
+      <th style="text-align: center">Recall</th>
+      <th style="text-align: center">F1-score</th>
+      <th style="text-align: center">Support</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: center"><strong>Sentence</strong></td>
-      <td style="text-align: center">Example 1</td>
-      <td style="text-align: center">Example 2</td>
-      <td style="text-align: center">Example 3</td>
+      <td style="text-align: center">Majority Classifier</td>
+      <td style="text-align: center">0</td>
+      <td style="text-align: center">0.64</td>
+      <td style="text-align: center">1.00</td>
+      <td style="text-align: center">0.78</td>
+      <td style="text-align: center">270</td>
     </tr>
     <tr>
-      <td style="text-align: center"><strong>Errors</strong></td>
-      <td style="text-align: center">error A, error B, error C</td>
-      <td style="text-align: center">error C</td>
-      <td style="text-align: center">error B</td>
+      <td style="text-align: center">Majority Classifier</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">0.00</td>
+      <td style="text-align: center">0.00</td>
+      <td style="text-align: center">0.00</td>
+      <td style="text-align: center">155</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Logistic Regression</td>
+      <td style="text-align: center">0</td>
+      <td style="text-align: center">0.82</td>
+      <td style="text-align: center">0.93</td>
+      <td style="text-align: center">0.87</td>
+      <td style="text-align: center">270</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Logistic Regression</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">0.83</td>
+      <td style="text-align: center">0.64</td>
+      <td style="text-align: center">0.72</td>
+      <td style="text-align: center">155</td>
     </tr>
   </tbody>
-  <caption>Table 1. This is Table 1's caption</caption>
+   <caption>Table 1. Performance comparison between majority baseline and logistic regression model.</caption>
 </table>
 <br>
 <div style="text-align: center;">
-<img style="height: 300px;" alt="" src="./files/results.png">
+<img style="height: 300px;" alt="Model performance comparison" src="./files/results.png">
 </div>
 <br><br>
 
