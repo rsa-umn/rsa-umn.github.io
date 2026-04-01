@@ -211,21 +211,28 @@ We anticipated challenges related to data sparsity and variability in transcript
     
 <h2 id="results">Results</h2>
 <p>
-<b>How did you measure success? What experiments were used? What were the results, both quantitative and qualitative? Did you succeed? Did you fail? Why?</b>
+<b>How did you measure success? What experiments were used? What were the results, both quantitative and qualitative? 
+  Did you succeed? Did you fail? Why?</b>
 </p>
 <p>
-We evaluated model performance on conversational transcripts from the CLARIN TalkBank / CHILDES dataset for a binary classification task predicting the presence of a language disorder. 
-  Success was measured using standard classification metrics, including precision, recall, F1-score, and ROC-AUC, to account for potential class imbalance and provide a comprehensive assessment of model performance.
+We evaluated model performance on conversational transcripts from the CLARIN TalkBank / CHILDES dataset for a binary 
+  classification task predicting the presence of a language disorder. Success was measured using standard classification
+  metrics, including precision, recall, F1-score, and ROC-AUC, to account for potential class imbalance and provide a 
+  comprehensive assessment of model performance.
 </p>
 
 <p>
-We conducted experiments comparing a majority class baseline, a logistic regression model using TF-IDF features, and a transformer-based language model. 
-  The baseline models were designed to establish interpretable reference points, while the transformer model aimed to capture deeper contextual and sequential patterns in the transcripts. We also evaluated different input representations, including cleaned text and disfluency-tagged transcripts, to assess the impact of preprocessing.
+We conducted experiments comparing a majority class baseline, a logistic regression model using TF-IDF features, 
+  and a transformer-based language model. The baseline models were designed to establish interpretable reference points,
+  while the transformer model aimed to capture deeper contextual and sequential patterns in the transcripts. We also evaluated 
+  different input representations, including cleaned text and disfluency-tagged transcripts, to assess the impact of 
+  preprocessing.
 </p>
 
 <p>
 We compared a majority class baseline with a logistic regression model trained on TF-IDF features. 
-  The majority classifier achieved an F1-score of 0.78 for the majority class (label 0) but completely failed to identify the minority class (label 1), with precision, recall, and F1-score all equal to 0. 
+  The majority classifier achieved an F1-score of 0.78 for the majority class (label 0) but completely 
+  failed to identify the minority class (label 1), with precision, recall, and F1-score all equal to 0. 
   This highlights its limitation in handling imbalanced data, as it predicts only the dominant class.
 </p>
 
@@ -238,13 +245,17 @@ In contrast, the logistic regression model substantially improved performance ac
 </p>
 
 <p>
-(Lynn: Need to be confrimed!) Qualitatively, error analysis suggests that misclassifications often occur in sessions with highly variable or disfluent speech, where tokenization and representation may be less reliable. 
-  In particular, disfluency-tagged transcripts may introduce noise that affects model performance. Additionally, shorter or less informative sessions appear more difficult to classify accurately.
+(Lynn: Need to be confrimed!) Qualitatively, error analysis suggests that misclassifications often occur in sessions with highly 
+  variable or disfluent speech, where tokenization and representation may be less reliable. In particular, disfluency-tagged
+  transcripts may introduce noise that affects model performance. Additionally, shorter or less informative sessions appear more 
+  difficult to classify accurately.
 </p>
 
 <p>
 Overall, the logistic regression model represents an improvement over the baseline and provides a good, interpretable starting point. 
-  While the approach was successful in identifying meaningful patterns, the lower recall for the minority class and sensitivity to disordered speech highlight the need for more advanced models, such as transformer-based language models, to better capture complex linguistic structures.
+  While the approach was successful in identifying meaningful patterns, the lower recall for the minority class and sensitivity to 
+  disordered speech highlight the need for more advanced models, such as transformer-based language models, to better capture complex 
+  linguistic structures.
 </p>
 
     
@@ -306,13 +317,19 @@ Overall, the logistic regression model represents an improvement over the baseli
 
 
 <h2 id="conclusion">Conclusion and Future Work</h2>
-<p>
-
-  How easily are your results able to be reproduced by others?
+      <!-- How easily are your results able to be reproduced by others?
   Did your dataset or annotation affect other people's choice of research or development projects to undertake?
   Does your work have potential harm or risk to our society? What kinds? If so, how can you address them?
-  What limitations does your model have? How can you extend your work for future research?</p>
-
+  What limitations does your model have? How can you extend your work for future research? -->
+<p>
+As mentioned above, the logistic regression model substantially improved performance across both classes in comparison
+  to a majority classifier, indicating that the logistic regression model was able to capture meaningful linguistic 
+  patterns associated with language disorders. While this is the case, recall for the minority class is relatively low,
+  suggesting missed cases and need for improvement.</p>
+<p>The results obtained for both models constructed thus far should be relatively straightforward for one to reproduce 
+  given the use of the saved datasets and model data in the repository, as well as the same seed values where appropriate.</p> 
+<p>At this time, future work is focused on developing a transformer model that would ideally outperform both the
+majority classifier and the logistic regression model in identification of language disorders.</p>
 <hr>
 
 
