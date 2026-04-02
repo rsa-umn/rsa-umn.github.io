@@ -68,5 +68,5 @@
 <text font-size="14" font-weight="500" x="340" y="618" text-anchor="middle" dominant-baseline="central" fill="#085041">Present / Absent</text>
 
 <!-- Panel label -->
-<text font-size="14" font-weight="500" x="340" y="652" text-anchor="middle" fill="#555">(a) Model architecture</text>
+<text font-size="14" font-weight="500" x="340" y="652" text-anchor="middle" fill="#555">Model architecture</text>
 </svg>
